@@ -1,0 +1,34 @@
+{
+  "name": "twittest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.18.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "granim": "^2.0.0",
+    "http": "0.0.0",
+    "nodemon": "^2.0.1",
+    "path": "^0.12.7",
+    "pts": "^0.8.11",
+    "sentiment": "^5.0.2",
+    "socket.io": "^2.3.0",
+    "sys": "0.0.1",
+    "twit": "^2.2.11"
+  }
+}

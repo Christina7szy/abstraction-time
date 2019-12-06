@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script src="assets/granim.min.js"></script>
+    <style type="text/css">
+      #line {
+        width: 100%;
+        margin: 20px 0;
+        height: 300px;
+      }
+      .old {
+        stroke: lightgrey;
+        stroke-dasharray: 5;
+        stroke-dashoffset: 5;
+      }
+      #canvas-image-blending {
+        position: fixed;
+        top: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script>
+      var x0 = 90;
+      var y0 = 10;
+      var x0Color = x0 + "%";
+      var y0Color = y0 + "px";
+      var y1 = 100;
+      var y1Color = y1 + "%";
+      function changeColor() {
+        x0 = x0 + 10;
+        x0Color = x0 + "%";
+        console.log(print);
+      }
+      window.setInterval(changeColor(), 100);
+      var d = new Date();
+      var n = d.getHours();
+      var r = 255 - n * 10;
+      var g = n * 3;
+      var b = n * 10;
+      var r1 = n * 1;
+      var g1 = n * 1;
+      var b1 = n * n;
+    </script>
+  </head>
+  <body>
+    <div id="line"></div>
+    <canvas id="canvas-image-blending"></canvas>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.1/d3.min.js"
+    ></script>
+    <script type="text/javascript">
+      var granimInstance = new Granim({
+        element: "#canvas-image-blending",
+        direction: "custom",
+        customDirection: {
+          x0: x0Color,
+          y0: y0Color,
+          x1: "60%",
+          y1: y1Color
+        },
+        isPausedWhenNotInView: true,
+        states: {
+          "default-state": {
+            gradients: [
+              // ['#ff9966', '#ff5e62',],
+              [
+                "rgb(" + r + "," + g + "," + b + ")",
+                "rgb(" + r1 + "," + g1 + "," + b1 + ")"
+              ],
+              ["rgb(" + r + "," + g + "," + b + ")", "#ffffff"]
+            ]
+          }
+        }
+      });
+
+      setInterval(function() {
+        // var d = new Date();
+        // var n = d.getHours();
+        // console.log(n)
+        i = 1;
+        x0 = x0 - 5 * i;
+        if ((x0 = 0)) {
+          i = i * -1;
+        }
+        if (x0 > 100) {
+          i = i * -1;
+        }
+        x0Color = x0 + "%";
+        y0 = y0 + 10;
+        y0Color = y0 + "px";
+        y1 = y1 - 1;
+
+        console.log(x0, y0Color, y1Color);
+        y1Color = y1 + "%";
+        // granimInstance.customDirection = {
+        //   x0: x0Color,
+        //   y0: y0Color,
+        //   x1: "30%",
+        //   y1: y1Color
+        // };
+        granimInstance.customDirection = {
+          x0: x0Color,
+          y0: "1000px",
+          x1: "30%",
+          y1: "90%"
+        };
+        granimInstance.changeDirection("custom");
+        expect(granimInstance.direction).toEqual("custom");
+        done();
+      }, 500);
+
+      const source = new EventSource("/events");
+      let twitter = [];
+
+      var w = window.innerWidth;
+      var h = 300;
+
+      // document.body.innerHTML = '';
+
+      source.onmessage = function line(dats) {
+        nums = dats.data;
+        real = JSON.parse(nums);
+
+        console.log(real);
+
+        let repeat = () => {
+          //   // data is created inside the function so it is always unique
+
+          //   // let dat = data.data;
+          // var data = d3.range(11).map(function() {
+          //   return Math.random() * 10;
+          // });
+          // console.log(data);
+
+          //   // var data = Array(11);
+          //   // for (var i = 0; i < data.length; i++) {
+          //   //   data.push(dats);
+          //   // }
+          //   // console.log(data);
+
+          var svg = d3
+            .select("#line")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+            .attr("id", "visualization");
+
+          const n = 10;
+
+          var x = d3
+            .scaleLinear()
+            .domain([0, n - 1])
+            .range([0, w]);
+          var y = d3
+            .scaleLinear()
+            .domain([0, 100])
+            .range([100, 0]);
+
+          var line = d3
+            .line()
+            .x(function(d, i) {
+              return x(i);
+            })
+            .y(function(d) {
+              return y(d);
+            });
+          // .curve(d3.curveNatural);
+
+          // Uncomment following line to clear the previously drawn line
+          //svg.selectAll("path").remove();
+
+          // Set a light grey class on old paths
+          // svg.selectAll('path').attr('class', 'old');
+
+          var path = svg
+            .append("path")
+            .attr("d", line(real))
+            .attr("stroke", "black")
+            .attr("stroke-width", "2")
+            .attr("fill", "none");
+
+          var totalLength = path.node().getTotalLength();
+
+          path
+            .attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+            .duration(10000)
+            .ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0)
+            .on("end");
+        };
+        repeat();
+        console.log("repeated");
+      };
+    </script>
+  </body>
+</html>
