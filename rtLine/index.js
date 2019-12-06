@@ -1,18 +1,18 @@
-const express = require("express");
-const app = express();
-const Twit = require("twit");
-const Sentiment = require("sentiment");
+var express = require("express");
+var app = express();
+var Twit = require("twit");
+var Sentiment = require("sentiment");
 
-const config = require("./config.js");
+var config = require("./config.js");
 
-const T = new Twit(config);
-const sentiment = new Sentiment();
+var T = new Twit(config);
+var sentiment = new Sentiment();
 
-// const nyc = ['-73.9833', '40.6898', '-73.978', '40.695'];
+// var nyc = ['-73.9833', '40.6898', '-73.978', '40.695'];
 
-const nyc = "[-73.9833, 40.6898, -73.978, 40.695]";
+var nyc = "[-73.9833, 40.6898, -73.978, 40.695]";
 
-// const stream = T.stream('statuses/filter', { locations: nyc });
+// var stream = T.stream('statuses/filter', { locations: nyc });
 app.use(express.static("rtLine/assets"));
 
 // app.get("/", (req, res) => {
@@ -35,7 +35,7 @@ app.get("/events/", function(req, res) {
   (function(clientId) {
     clients[clientId] = res; // <- Add this client to those we consider "attached"
     req.on("close", function() {
-      delete clients[clientId];
+      devare clients[clientId];
     }); // <- Remove this client when he disconnects
   })(++clientId);
 });
@@ -53,14 +53,14 @@ setInterval(function() {
     "search/tweets",
     { q: "New York since:2011-07-11", count: 10 },
     function(err, data, response) {
-      const sample = [];
-      const tweets = data.statuses;
-      const tweetTotal = tweets.length;
-      for (let i = 0; i < tweetTotal; i++) {
-        const tweet = tweets[i].text;
-        const result = sentiment.analyze(tweet);
-        const { score } = result;
-        const bigScore = score * 10;
+      var sample = [];
+      var tweets = data.statuses;
+      var tweetTotal = tweets.length;
+      for (var i = 0; i < tweetTotal; i++) {
+        var tweet = tweets[i].text;
+        var result = sentiment.analyze(tweet);
+        var { score } = result;
+        var bigScore = score * 10;
         sample.push(bigScore);
       }
       // setInterval(function() {

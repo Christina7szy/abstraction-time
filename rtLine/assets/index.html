@@ -113,8 +113,8 @@
         done();
       }, 500);
 
-      const source = new EventSource("/events");
-      let twitter = [];
+      var source = new EventSource("/events");
+      var twitter = [];
 
       var w = window.innerWidth;
       var h = 300;
@@ -127,10 +127,10 @@
 
         console.log(real);
 
-        let repeat = () => {
+        function repeat() {
           //   // data is created inside the function so it is always unique
 
-          //   // let dat = data.data;
+          //   // var dat = data.data;
           // var data = d3.range(11).map(function() {
           //   return Math.random() * 10;
           // });
@@ -149,7 +149,7 @@
             .attr("height", h)
             .attr("id", "visualization");
 
-          const n = 10;
+          var n = 10;
 
           var x = d3
             .scaleLinear()
@@ -193,7 +193,7 @@
             .ease(d3.easeLinear)
             .attr("stroke-dashoffset", 0)
             .on("end");
-        };
+        }
         repeat();
         console.log("repeated");
       };
