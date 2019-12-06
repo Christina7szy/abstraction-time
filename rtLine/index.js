@@ -13,12 +13,12 @@ const sentiment = new Sentiment();
 const nyc = "[-73.9833, 40.6898, -73.978, 40.695]";
 
 // const stream = T.stream('statuses/filter', { locations: nyc });
-app.use("/assets", express.static("./assets/"));
+app.use(express.static("rtLine/assets"));
 
-app.get("/", (req, res) => {
-  res.sendFile("./index.html", { root: __dirname });
-  // res.send(sample);
-});
+// app.get("/", (req, res) => {
+//   res.sendFile("./index.html", { root: __dirname });
+//   // res.send(sample);
+// });
 
 var clientId = 0;
 var clients = {}; // <- Keep a map of attached clients
