@@ -35,7 +35,7 @@ app.get("/events/", function(req, res) {
   (function(clientId) {
     clients[clientId] = res; // <- Add this client to those we consider "attached"
     req.on("close", function() {
-      devare clients[clientId];
+      delete clients[clientId];
     }); // <- Remove this client when he disconnects
   })(++clientId);
 });
