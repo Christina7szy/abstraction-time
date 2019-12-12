@@ -1,4 +1,5 @@
 var express = require("express");
+var cors = require("cors");
 var app = express();
 var Twit = require("twit");
 var Sentiment = require("sentiment");
@@ -12,6 +13,7 @@ var sentiment = new Sentiment();
 
 var nyc = "[-73.9833, 40.6898, -73.978, 40.695]";
 
+app.use(cors());
 // var stream = T.stream('statuses/filter', { locations: nyc });
 app.use(express.static("rtLine/assets"));
 
